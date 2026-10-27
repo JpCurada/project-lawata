@@ -1,0 +1,83 @@
+/* Privacy notice and Terms of use: plain, readable prose. */
+.legal {
+  max-width: 42rem;
+}
+
+.legal__updated {
+  margin: 0 0 var(--space-10);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.legal__lead {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+.legal h2 {
+  margin: var(--space-12) 0 var(--space-4);
+  font-family: var(--font-serif);
+  font-size: var(--text-card);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.legal p,
+.legal li {
+  line-height: 1.7;
+}
+
+.legal p {
+  margin: 0 0 var(--space-4);
+}
+
+.legal ul {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.legal li + li {
+  margin-top: var(--space-2);
+}
+
+.legal a {
+  overflow-wrap: anywhere;
+}
+
+.legal__table-wrap {
+  margin: var(--space-2) 0 var(--space-6);
+  overflow-x: auto;
+}
+
+.legal__table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.legal__table caption {
+  padding-bottom: var(--space-2);
+  text-align: left;
+  color: var(--color-text-muted);
+}
+
+.legal__table th,
+.legal__table td {
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.legal__table thead th {
+  font-weight: 600;
+  border-bottom-color: var(--color-border-strong);
+}
+
+.legal__table code {
+  font-size: 0.95em;
+  overflow-wrap: anywhere;
+}

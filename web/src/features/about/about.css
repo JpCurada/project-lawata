@@ -1,0 +1,106 @@
+/* How Lawata is built: the same plain prose frame as the legal pages, plus wide diagrams. */
+.about > :not(.about-figure) {
+  max-width: 42rem;
+}
+
+.about__lead {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+.about h2 {
+  margin: var(--space-12) 0 var(--space-4);
+  font-family: var(--font-serif);
+  font-size: var(--text-card);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.about h3 {
+  margin: var(--space-8) 0 var(--space-3);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.about p,
+.about li,
+.about dd {
+  line-height: 1.7;
+}
+
+.about p {
+  margin: 0 0 var(--space-4);
+}
+
+.about__steps {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.about__steps li + li {
+  margin-top: var(--space-2);
+}
+
+.about__list {
+  margin: 0 0 var(--space-4);
+}
+
+.about__list dt {
+  margin-top: var(--space-5);
+  font-weight: 600;
+}
+
+.about__list dt:first-child {
+  margin-top: 0;
+}
+
+.about__list dd {
+  margin: var(--space-1) 0 0;
+}
+
+.about code {
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+}
+
+.about a {
+  overflow-wrap: anywhere;
+}
+
+/* Diagrams are ~2476 px wide and dense, so they take the full page width while the prose stays narrow.
+   On phones they keep a readable minimum width and scroll sideways inside the figure, never the page. */
+.about-figure {
+  margin: var(--space-6) 0;
+}
+
+.about-figure__scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-tile);
+}
+
+.about-figure__scroll:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.about-figure__img {
+  display: block;
+  width: 100%;
+  min-width: 40rem;
+  height: auto;
+}
+
+.about-figure__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 48rem) {
+  .about-figure__img {
+    min-width: 0;
+  }
+}

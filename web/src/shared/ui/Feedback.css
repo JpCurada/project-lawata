@@ -1,0 +1,162 @@
+/* Feedback: a floating button (bottom-right, not on the map) and a small non-modal panel. */
+.feedback-fab {
+  position: fixed;
+  right: calc(var(--space-4) + env(safe-area-inset-right));
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 52px;
+  min-height: 52px;
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-overlay);
+  cursor: pointer;
+}
+
+.feedback-fab:hover {
+  background-color: var(--color-primary-strong);
+}
+
+.feedback-fab[hidden] {
+  display: none;
+}
+
+.feedback-fab__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.feedback-fab .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* On phones the story page has its own fixed action bar at the bottom; the footer link covers feedback there. */
+.feedback-fab--story {
+  display: none;
+}
+
+.feedback {
+  position: fixed;
+  right: calc(var(--space-3) + env(safe-area-inset-right));
+  bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  left: calc(var(--space-3) + env(safe-area-inset-left));
+  z-index: 60;
+  max-height: calc(100dvh - 2 * var(--space-3) - env(safe-area-inset-bottom) - env(safe-area-inset-top));
+  overflow-y: auto;
+  padding: var(--space-5);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card), var(--shadow-overlay);
+}
+
+.feedback__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.feedback__title {
+  margin: 0;
+  padding-top: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.feedback__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0 0;
+  padding: 0;
+  color: var(--color-text-muted);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.feedback__close:hover {
+  color: var(--color-text);
+}
+
+.feedback__form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.feedback__message {
+  resize: vertical;
+}
+
+.feedback__error {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-error-text);
+}
+
+.feedback__hint,
+.feedback__note,
+.feedback__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.feedback__status:empty {
+  display: none;
+}
+
+.feedback__send {
+  justify-self: start;
+}
+
+@media (min-width: 768px) {
+  .feedback-fab {
+    right: calc(var(--space-6) + env(safe-area-inset-right));
+    bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+    padding: 0 var(--space-5);
+  }
+
+  .feedback-fab__label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .feedback-fab--story {
+    display: inline-flex;
+  }
+
+  .feedback {
+    right: calc(var(--space-6) + env(safe-area-inset-right));
+    bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+    left: auto;
+    width: 22rem;
+    max-height: calc(100dvh - 2 * var(--space-6));
+  }
+}

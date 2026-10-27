@@ -1,0 +1,234 @@
+/* Sampling tasks. Mobile-first single column. */
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-ok-bg);
+  color: var(--color-ok-text);
+}
+
+.notice--error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.task-group {
+  margin-bottom: var(--space-6);
+}
+
+.task-group__title {
+  margin: 0 0 var(--space-6);
+  font-family: var(--font-serif);
+  font-size: var(--text-section);
+  font-weight: 400;
+  line-height: var(--leading-heading);
+}
+
+.task-group__count {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.task-group__list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.task-card {
+  min-width: 0;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+}
+
+.task-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.task-card__title {
+  margin: 0;
+  font-size: var(--text-card);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+}
+
+.task-card__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+}
+
+.task-card__reason {
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.mini-map {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-info-bg);
+}
+
+.mini-map--state {
+  justify-content: center;
+  text-align: center;
+}
+
+.task-card__sites {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.task-card__site-label {
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: capitalize;
+}
+
+.task-card__review {
+  margin: var(--space-3) 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.task-card__note {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--color-text);
+}
+
+.task-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.task-card__actions .button {
+  flex: 1 1 8rem;
+}
+
+.task-card__form {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.pill--pending_approval {
+  background-color: var(--color-secondary-soft);
+  color: var(--color-text);
+  border: 1px solid var(--color-secondary);
+}
+
+.pill--approved,
+.pill--done {
+  background-color: var(--color-ok-bg);
+  color: var(--color-ok-text);
+}
+
+.pill--rejected {
+  background-color: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+@media (min-width: 900px) {
+  .task-group__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.task-skeleton__heading {
+  margin-bottom: var(--space-6);
+}
+
+/* Story first, then evidence, then the decision. */
+.notice:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.notice__text {
+  margin: 0;
+  flex: 1 1 14rem;
+}
+
+.task-card__story {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.task-card__reason-label {
+  font-weight: 600;
+}
+
+.task-card__evidence {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-3);
+}
+
+.task-card__thumb {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-info-bg);
+}
+
+.task-card__thumb--none {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.task-card__evidence-text {
+  display: grid;
+  min-width: 0;
+}
+
+.task-card__evidence-text .card__note {
+  margin: 0;
+}
+
+.task-card__evidence-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+}
+
+/* Plain text right above the buttons it explains: no box, so it reads as part of the card. */
+.task-card__consequence {
+  margin: var(--space-4) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.task-card--pending_approval {
+  border-color: var(--color-secondary);
+}

@@ -1,0 +1,111 @@
+/* Arc bridge. Arc components (src/shared/ui/arc, from https://uiarc.dev) read Arc's token names; this file points
+   those names at Lawata tokens so Arc follows Lawata's palette, type and both themes. Arc's own foundation.css is
+   not imported (it redefines Lawata tokens and adds global focus rules).
+   Rules: names Lawata already defines with the same meaning (--space-*, --text-xs/sm/base/lg/xl, --radius-panel,
+   --radius-pill, --leading-body, --leading-display, --tracking-display) are left alone. Everything else is a var()
+   reference to a Lawata token, so dark mode follows automatically. Arc's own literal values are copied only where
+   Lawata has no equivalent (motion, control sizes, shadows, thumbs); those literals get dark overrides below.
+   Load after tokens.css. Never redefine a Lawata token here. */
+:root {
+  /* Surfaces and text */
+  --background: var(--color-bg);
+  --surface: var(--color-surface);
+  --surface-raised: var(--color-surface);
+  --surface-muted: var(--color-info-bg);
+  --foreground: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-muted: var(--color-text-muted);
+
+  /* Lines. Lawata has no --border/--border-strong of its own (it uses --color-border*), so no collision. */
+  --border: var(--color-border);
+  --border-subtle: var(--color-border);
+  --border-strong: var(--color-border-strong);
+
+  /* Accent and status */
+  --accent: var(--color-primary);
+  --accent-strong: var(--color-primary-strong);
+  --accent-subtle: color-mix(in oklab, var(--color-primary) 12%, transparent);
+  --accent-foreground: var(--color-on-primary);
+  --success: var(--color-ok-text);
+  --warning: var(--color-secondary);
+  --danger: var(--color-error-text);
+
+  /* Focus. Lawata's global :focus-visible rule (global.css) draws keyboard focus on Arc components too. */
+  --focus-ring: var(--color-focus);
+  --focus-outline: var(--color-focus);
+  --focus-outline-width: var(--focus-width);
+  --focus-outline-offset: var(--focus-offset);
+
+  /* Selection controls (switch, checkbox, radio, slider) */
+  --control-on: var(--color-primary);
+  --control-glyph: var(--color-on-primary);
+  --control-track: var(--color-border-strong);
+  --control-track-hover: color-mix(in oklab, var(--color-border-strong) 82%, var(--color-text));
+  --control-thumb: oklch(100% 0 0);
+  --control-thumb-on: var(--color-on-primary);
+  --control-thumb-shadow: 0 0 0 0.5px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.14), 0 2px 6px oklch(0% 0 0 / 0.06);
+  --control-on-subtle: color-mix(in oklab, var(--control-on) 10%, transparent);
+  --control-fill: var(--control-on);
+
+  /* Shapes and sizes. Controls are pills like Lawata's buttons; md matches Lawata's 44px touch target. */
+  --radius-control: var(--radius-pill);
+  --radius-surface: var(--radius-panel);
+  --control-height-sm: 2.25rem;
+  --control-height-md: var(--touch-min);
+  --control-height-lg: 3.125rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Type. Lawata body text has no tracking, so Arc's Inter tuning is dropped. */
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --tracking-body: normal;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3.25rem;
+  --text-5xl: 4.5rem;
+
+  /* Shadows (Arc's values; Lawata's --shadow-card/--shadow-overlay are tuned for its own cards and map panels). */
+  --shadow-resting: 0 1px 2px oklch(0% 0 0 / 0.035);
+  --shadow-raised: 0 6px 18px oklch(0% 0 0 / 0.065), 0 1px 3px oklch(0% 0 0 / 0.035);
+  --shadow-floating: 0 20px 48px oklch(0% 0 0 / 0.105), 0 3px 10px oklch(0% 0 0 / 0.045);
+
+  /* Motion (Arc's values; mirrors src/shared/ui/arc/motion-tokens.ts). */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: linear(0, 0.0213, 0.0739, 0.1443, 0.2235, 0.305, 0.3849, 0.4606, 0.5305, 0.594, 0.6508, 0.7011, 0.7452, 0.7836, 0.8168, 0.8454, 0.8699, 0.8907, 0.9084, 0.9234, 0.9361, 0.9467, 0.9557, 0.9632, 0.9694, 0.9747, 0.979, 0.9826, 0.9857, 0.9882, 0.9902, 0.992, 0.9934, 0.9946, 0.9955, 0.9963, 1);
+  --duration-instant: 120ms;
+  --duration-fast: 160ms;
+  --duration-standard: 240ms;
+  --duration-considered: 480ms;
+  --duration-spring: 580ms;
+}
+
+/* Dark values for the literals above, shared by the explicit override and the system preference (as in tokens.css). */
+[data-theme="dark"] {
+  --control-thumb: oklch(97% 0 0);
+  --control-thumb-shadow: 0 0 0 0.5px oklch(0% 0 0 / 0.3), 0 1px 2px oklch(0% 0 0 / 0.35), 0 2px 6px oklch(0% 0 0 / 0.2);
+  --shadow-resting: 0 1px 2px oklch(0% 0 0 / 0.18);
+  --shadow-raised: 0 8px 22px oklch(0% 0 0 / 0.22);
+  --shadow-floating: 0 22px 55px oklch(0% 0 0 / 0.34);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --control-thumb: oklch(97% 0 0);
+    --control-thumb-shadow: 0 0 0 0.5px oklch(0% 0 0 / 0.3), 0 1px 2px oklch(0% 0 0 / 0.35), 0 2px 6px oklch(0% 0 0 / 0.2);
+    --shadow-resting: 0 1px 2px oklch(0% 0 0 / 0.18);
+    --shadow-raised: 0 8px 22px oklch(0% 0 0 / 0.22);
+    --shadow-floating: 0 22px 55px oklch(0% 0 0 / 0.34);
+  }
+
+  /* ImageCompare's divider line paints --surface-raised and only switches to --foreground under
+     :root[data-theme="dark"] (in its CSS module). ThemeProvider leaves that attribute off when following the system,
+     so do the same switch here. Scoped to the line's parent (the frame's last child is the pivot, whose first child
+     is the rotor holding the line), so the handle keeps --surface-raised as in explicit dark mode. */
+  :root:not([data-theme="light"]) [data-frame-keep] > :last-child > :first-child {
+    --surface-raised: var(--foreground);
+  }
+}

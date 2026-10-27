@@ -1,0 +1,13 @@
+output "web_url" { value = "https://${aws_cloudfront_distribution.web.domain_name}" }
+output "web_bucket" { value = aws_s3_bucket.web.bucket }
+output "distribution_id" { value = aws_cloudfront_distribution.web.id }
+output "api_function_url" { value = aws_lambda_function_url.api.function_url }
+output "agent_runtime_arn" { value = aws_bedrockagentcore_agent_runtime.agent.agent_runtime_arn }
+output "ecr_lambda" { value = aws_ecr_repository.lambda.repository_url }
+output "ecr_agent" { value = aws_ecr_repository.agent.repository_url }
+output "evidence_bucket" { value = aws_s3_bucket.evidence.bucket }
+output "cloudfront_domain" { value = aws_cloudfront_distribution.web.domain_name }
+output "cognito_user_pool_id" { value = aws_cognito_user_pool.researchers.id }
+output "cognito_client_id" { value = aws_cognito_user_pool_client.web.id }
+output "cognito_hosted_ui_domain" { value = "https://${aws_cognito_user_pool_domain.hosted_ui.domain}.auth.${var.region}.amazoncognito.com" }
+output "cognito_authority" { value = local.cognito_authority }

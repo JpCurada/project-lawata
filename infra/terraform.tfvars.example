@@ -1,0 +1,7 @@
+# Copy to terraform.tfvars (gitignored)
+bedrock_model_id      = "us.anthropic.claude-REPLACE-WITH-ID-FROM-CONSOLE"
+alert_email           = "you@example.com"
+cognito_domain_prefix = "lawata-REPLACE-WITH-SOMETHING-UNIQUE" # hosted UI prefix, globally unique
+# After the first apply: web_domain = "<terraform output -raw cloudfront_domain>"
+# web_domain          = "dxxxxxxxxxxxxx.cloudfront.net"
+# image_tag           = "latest"

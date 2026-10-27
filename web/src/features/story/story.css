@@ -1,0 +1,725 @@
+/* Stories: a gallery of cards (/story) and one readable story per page (/story/:id).
+   Mobile-first; breakpoints at 640, 768, 1024 and 1280px. */
+
+/* ---------- Badge ---------- */
+.story-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-plume-stroke);
+}
+
+.story-badge--dry {
+  background-color: var(--color-plume-dry);
+}
+
+.story-badge--rain {
+  background-color: var(--color-plume-rain);
+}
+
+/* Not a plume: neutral, flips with the theme. */
+.story-badge--artifact {
+  color: var(--color-surface);
+  background-color: var(--color-text-muted);
+}
+
+/* ---------- Live meta line and its small states ---------- */
+.story-live--state {
+  padding: 0;
+  font-size: var(--text-sm);
+  text-align: left;
+  background: none;
+  border: 0;
+}
+
+.story-live--state.block-state,
+.story-live--state.block-loading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+}
+
+.story-live--state p {
+  margin: 0;
+}
+
+/* ---------- Gallery ---------- */
+.story-gallery__intro .page__lead {
+  max-width: 44rem;
+}
+
+/* Phones: search, filters and sort stay in reach while scrolling the cards. */
+.story-toolbar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-2) var(--space-3);
+  margin: 0 calc(-1 * var(--gutter));
+  padding: var(--space-3) var(--gutter);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Phones and tablets: search and sort share the first row, filters get their own. */
+.story-toolbar__search {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.story-toolbar__sort {
+  grid-area: 1 / 2;
+}
+
+.story-filters {
+  grid-area: 2 / 1 / 3 / -1;
+}
+
+.story-toolbar__sort select {
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: 0 2.75rem 0 var(--space-4);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+}
+
+.story-toolbar__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.story-toolbar__sort label {
+  /* The select's options say what it does; keep the label for screen readers on phones. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Arc's segmented control scrolls its own track sideways (with edge fades) when wider than the screen. */
+.story-filters {
+  justify-self: start;
+}
+
+/* The active dry/rain filter takes the map's red/blue, via Arc's tokens on the pressed option only. */
+.story-filters--dry [aria-pressed="true"] {
+  --surface: var(--color-plume-dry);
+  --border: var(--color-plume-dry);
+  --foreground: var(--color-plume-stroke);
+}
+
+.story-filters--rain [aria-pressed="true"] {
+  --surface: var(--color-plume-rain);
+  --border: var(--color-plume-rain);
+  --foreground: var(--color-plume-stroke);
+}
+
+.story-gallery__picks {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.story-gallery__picks a {
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.story-gallery__count {
+  margin: var(--space-4) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.story-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+/* ---------- Card ---------- */
+.story-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.story-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.story-card:focus-within {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+}
+
+.story-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-band);
+}
+
+/* A cover thumbnail, so cropping to the box is fine here (unlike .content-img). */
+.story-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-card__placeholder {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-serif);
+  font-size: var(--text-section);
+  line-height: 1;
+  color: var(--color-primary);
+  background: linear-gradient(160deg, var(--color-band), var(--color-surface));
+}
+
+.story-card__badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  box-shadow: var(--shadow-overlay);
+}
+
+.story-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.story-card__meta {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.story-card__title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--leading-heading);
+}
+
+.story-card__link {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* The title link covers the whole card, so the card is one click target. */
+.story-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.story-card__link:focus-visible {
+  outline: none;
+}
+
+.story-card__summary {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Even card heights: a long summary is clamped so cards in a row line up. */
+.story-card__summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.story-card__live,
+.story-card__agent {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.story-card__agent {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Retry must stay clickable above the stretched link. */
+.story-card__live.story-live--state {
+  position: relative;
+  z-index: 1;
+}
+
+.story-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: auto;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.story-card:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* ---------- Detail ---------- */
+.story-detail {
+  width: 100%;
+  /* Room for the fixed action bar on phones. */
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+
+/* Sticky under the header, without a second rule line: a soft fade separates it from content. */
+.story-bar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 5;
+  background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.story-bar__inner,
+.story-detail__body {
+  max-width: calc(56rem + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.story-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 3.75rem;
+}
+
+/* An outlined pill like the app's other secondary buttons; the chevron nudges left on hover. */
+.story-bar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 2.5rem;
+  padding: 0 var(--space-4) 0 var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.15s ease;
+}
+
+.story-bar__back:hover {
+  border-color: var(--color-text);
+}
+
+.story-bar__chevron {
+  font-size: 1.1rem;
+  transition: transform 0.15s ease;
+}
+
+.story-bar__back:hover .story-bar__chevron {
+  transform: translateX(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-bar__chevron,
+  .story-bar__back:hover .story-bar__chevron {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Breadcrumbs repeat the back link, so they only show where there is room. */
+.story-bar__crumbs {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.story-bar__crumbs li + li::before {
+  content: "/";
+  margin: 0 var(--space-2);
+}
+
+.story-detail__body.page {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-8);
+}
+
+.story-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.story-hero__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-section);
+  font-weight: 400;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-display);
+}
+
+.story-hero__meta {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.story-hero__meta.story-live--state {
+  font-size: var(--text-base);
+}
+
+.story-run__summary {
+  margin-top: var(--space-3);
+}
+
+.story-step {
+  margin: var(--space-8) 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.story-step p {
+  margin: 0 0 var(--space-3);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.story-step__title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.story-quote {
+  margin: 0 0 var(--space-3);
+}
+
+.story-quote__action {
+  font-weight: 600;
+}
+
+.story-quote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Phones: the call to action sits at the bottom of the screen, above the home indicator. */
+.story-actions {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--gutter) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-overlay);
+}
+
+.story-actions > * {
+  flex: 1;
+  min-width: 0;
+  padding-inline: var(--space-3);
+  text-align: center;
+}
+
+/* ---------- Figures ---------- */
+.story-figure {
+  margin: var(--space-6) 0;
+}
+
+.story-figure__single {
+  margin: 0;
+}
+
+.story-figure__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Shrink-wrapped and height-capped, so a square 10 m crop doesn't fill a whole laptop screen; the image
+   keeps its proportions (never cropped) and opens full size on click. */
+.zoom-image {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-card);
+  cursor: zoom-in;
+}
+
+.zoom-image .content-img {
+  width: auto;
+  max-width: 100%;
+  max-height: min(70vh, 34rem);
+}
+
+.zoom-image__hint {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-crop-legend-text);
+  background-color: var(--color-crop-legend-bg);
+}
+
+/* Charts are drawn on white: give them a padded white "paper" frame, so on the dark theme they read as a
+   printed figure rather than a glaring hole. Never inverted: the colours carry meaning. */
+.story-figure__single--chart .zoom-image {
+  padding: var(--space-3);
+  background-color: var(--color-figure-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+}
+
+.story-figure__single--chart .zoom-image .content-img {
+  border-radius: var(--radius-sm);
+}
+
+/* The English meaning of a figure's baked-in Filipino labels, on its own line. */
+.story-figure__note {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+/* Before/after: one Arc ImageCompare frame. Its aspect ratio equals the images', so nothing is cropped. */
+.compare {
+  margin: 0;
+}
+
+.compare__legend {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.compare__side {
+  font-weight: 600;
+}
+
+.compare__frame {
+  max-width: 40rem;
+}
+
+.compare__zoom {
+  margin-top: var(--space-3);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-backdrop);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox__close {
+  align-self: flex-end;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--radius-card);
+  background-color: var(--color-figure-bg);
+}
+
+/* ---------- Closing panel ---------- */
+.story-end {
+  margin-top: var(--space-12);
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+}
+
+.story-end__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-serif);
+  font-size: var(--text-section);
+  font-weight: 400;
+  line-height: var(--leading-heading);
+}
+
+.story-end p {
+  max-width: 40rem;
+}
+
+/* ---------- Tablet (>= 768px) ---------- */
+@media (min-width: 768px) {
+  .story-toolbar {
+    position: static;
+    margin: 0;
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .story-toolbar__sort label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .story-toolbar__sort select {
+    width: auto;
+  }
+
+  .story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .story-card__body {
+    padding: var(--space-5);
+  }
+
+  .story-bar__crumbs {
+    display: flex;
+  }
+
+  .story-detail {
+    padding-bottom: 0;
+  }
+
+  .story-actions {
+    position: static;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .story-actions > * {
+    flex: none;
+    padding-inline: var(--space-5);
+  }
+}
+
+/* ---------- Laptop (>= 1024px): one toolbar row ---------- */
+@media (min-width: 1024px) {
+  .story-toolbar {
+    grid-template-columns: minmax(12rem, 20rem) 1fr auto;
+  }
+
+  .story-filters {
+    grid-area: 1 / 2;
+  }
+
+  .story-toolbar__sort {
+    grid-area: 1 / 3;
+  }
+
+  .story-hero__title {
+    font-size: 2.5rem;
+  }
+}
+
+/* ---------- Desktop (>= 1280px): three cards per row ---------- */
+@media (min-width: 1280px) {
+  .story-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-card,
+  .story-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* The recorded agent run keeps its own type scale inside a story step. */
+.story-step .agent-run__title {
+  margin: 0;
+  font-size: inherit;
+  line-height: var(--leading-heading);
+}
+
+.story-step .agent-run__reason {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}

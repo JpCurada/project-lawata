@@ -1,0 +1,54 @@
+.env
+.env.*
+data/
+*.npz
+*.tif
+*.db
+__pycache__/
+.venv/
+.claude/settings.local.json
+
+# seed data shipped with the repo
+!db/seed/lawata.db
+.import_linter_cache/
+.ruff_cache/
+.pytest_cache/
+.aws-sam/
+node_modules/
+dist/
+
+# web
+web/node_modules/
+web/dist/
+*.tsbuildinfo
+# terraform
+infra/.terraform/
+*.tfstate
+*.tfstate.*
+infra/terraform.tfvars
+crash.log
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# logs, coverage and test output
+*.log
+.coverage
+htmlcov/
+coverage/
+test-results/
+playwright-report/
+
+# python and notebooks
+*.egg-info/
+.ipynb_checkpoints/
+
+# terraform plans
+*.tfplan
+
+# Private story docs, kept local only
+docs/Lawata_Story_for_Mai.*
+infra/tfplan

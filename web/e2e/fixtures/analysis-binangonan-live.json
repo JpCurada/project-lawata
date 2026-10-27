@@ -1,0 +1,67 @@
+{
+  "status": "investigated",
+  "candidate_id": "area-e2e0001",
+  "lat": 14.50436,
+  "lon": 121.15458,
+  "acquired_date": "2026-05-06",
+  "action": "create_sampling_task",
+  "decision_status": "pending_approval",
+  "reason": "dry weather, shore-attached, seen before",
+  "trace": [
+    {
+      "tool": "inspect_plume",
+      "args": {
+        "id": "plume-27"
+      },
+      "result": {
+        "plume_found": true,
+        "clear_water_frac": 0.85,
+        "area_ha": 585,
+        "kind": "brown",
+        "cloud_edge": false,
+        "near_cloud_frac": 0.13,
+        "glint_frac": 0.09,
+        "haze": false,
+        "texture": 1.07,
+        "compactness": 0.12,
+        "shore_attached": true,
+        "crop": "s3://lawata-evidence/crops/area-e2e.jpg"
+      }
+    },
+    {
+      "tool": "get_rainfall",
+      "args": {
+        "lat": 14.50436,
+        "lon": 121.15458,
+        "date": "2026-05-06"
+      },
+      "result": {
+        "rain_3d_mm": 0.3,
+        "rain_7d_mm": 0.3,
+        "is_dry": true
+      }
+    },
+    {
+      "tool": "get_history",
+      "args": {
+        "lat": 14.50436,
+        "lon": 121.15458
+      },
+      "result": {
+        "events": 0,
+        "dry_events": 0,
+        "last_seen": null,
+        "zone_passes": 23,
+        "zone_unusual_passes": 3
+      }
+    },
+    {
+      "tool": "create_sampling_task",
+      "args": {
+        "reason": "dry weather, shore-attached, seen before"
+      }
+    }
+  ],
+  "crop_url": "/e2e-fixtures/area-crop.jpg",
+  "crop_kind": "inspection"
+}

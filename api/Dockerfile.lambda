@@ -1,0 +1,8 @@
+# Scan and API Lambdas. Build context: api/. Handler set by Terraform image_config.
+FROM public.ecr.aws/lambda/python:3.12-arm64
+RUN pip install --no-cache-dir uv
+COPY pyproject.toml uv.lock ./
+RUN uv export --no-dev --frozen --no-emit-project > requirements.txt && pip install --no-cache-dir -r requirements.txt
+# rasterio's bundled GDAL needs libexpat, which the Lambda base image does not ship.
+RUN (dnf install -y expat || microdnf install -y expat) && (dnf clean all || microdnf clean all)
+COPY src/lawata ${LAMBDA_TASK_ROOT}/lawata
